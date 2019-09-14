@@ -35,10 +35,11 @@ def mod_labels(ys, task):
             # holding: labels like 'milk,cookies,football'
             # replace with spaces 'milk football cookies'
             ys = [y.replace(',', ' ') for y in ys]
-        elif task == '19':
+        elif task == '19' or task == '0':
             # pathfinding: labels like 'n,e' or 's,w'
-            # replace with spaces, 'n e'
-            ys = [y.replace(',', ' ') for y in ys]
+            # replace with underscore, 'n_e'
+            # treat the label as a single token
+            ys = [y.replace(',', '_') for y in ys]
 
     return ys
 
