@@ -200,7 +200,9 @@ class ExampleSeq2seqAgent(TorchAgent):
         self.decoder.load_state_dict(state_dict[1])
 
     def load(self, path):
-        return torch.load(path, map_location=lambda cpu, _: cpu)
+        states = torch.load(path, map_location=lambda cpu, _: cpu)
+        self.load_state_dict(states['model'])
+        return states
 
     def state_dict(self):
         states = super().state_dict()
