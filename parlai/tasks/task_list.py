@@ -74,6 +74,21 @@ task_list = [
         ),
     },
     {
+        "id": "CCPE",
+        "display_name": "Coached Conversational Preference Elicitation",
+        "task": "ccpe",
+        "tags": ["All", "Goal"],
+        "description": (
+            "A dataset consisting of 502 dialogs with 12,000 annotated "
+            "utterances between a user and an assistant discussing movie "
+            "preferences in natural language. It was collected using a "
+            "Wizard-of-Oz methodology between two paid crowd-workers, "
+            "where one worker plays the role of an 'assistant', while "
+            "the other plays the role of a 'user'. From Google, '19. Link: "
+            "https://ai.google/tools/datasets/coached-conversational-preference-elicitation"
+        ),
+    },
+    {
         "id": "COPA",
         "display_name": "Choice of Plausible Alternatives",
         "task": "copa",
@@ -164,6 +179,17 @@ task_list = [
             "See https://www.researchgate.net/publication/319128941_Challenging_Neural_"
             "Dialogue_Models_with_Natural_Data_Memory_Networks_Fail_on_"
             "Incremental_Phenomena,http://aclweb.org/anthology/D17-1235"
+        ),
+    },
+    {
+        "id": "dialogue-nli",
+        "display_name": "Dialogue NLI",
+        "task": "dialogue_nli",
+        "tags": ["All", "ChitChat", "NLI"],
+        "description": (
+            "Dialogue NLI is a dataset that addresses the issue of consistency in "
+            "dialogue models. "
+            "See: https://wellecks.github.io/dialogue_nli/"
         ),
     },
     {

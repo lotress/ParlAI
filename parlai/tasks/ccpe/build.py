@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # Copyright (c) Facebook, Inc. and its affiliates.
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
@@ -10,8 +8,8 @@ import os
 
 
 def build(opt):
-    dpath = os.path.join(opt['datapath'], 'TalkTheWalk')
-    version = None
+    dpath = os.path.join(opt['datapath'], 'CCPE')
+    version = '1.0'
 
     if not build_data.built(dpath, version_string=version):
         print('[building data: ' + dpath + ']')
@@ -21,10 +19,9 @@ def build(opt):
         build_data.make_dir(dpath)
 
         # Download the data.
-        fname = 'talkthewalk.tgz'
-        url = 'https://dl.fbaipublicfiles.com/parlai/projects/talkthewalk/' + fname
+        fname = 'ccpe.json'
+        url = "https://storage.googleapis.com/dialog-data-corpus/CCPE-M-2019/data.json"
         build_data.download(url, dpath, fname)
-        build_data.untar(dpath, fname)
 
         # Mark the data as built.
         build_data.mark_done(dpath, version_string=version)
