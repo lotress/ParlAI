@@ -255,6 +255,17 @@ class ExampleSeq2seqAgent(TorchAgent):
         kwargs['add_start'] = False
         return super().vectorize(*args, **kwargs)
 
+    def batchify(self, *args, **kwargs):
+        """
+        Create a batch of valid observations from an unchecked batch.
+        """
+        batch = super().batchify(*args, **kwargs)
+        if not batch.valid_indices or not len(batch.valid_indices):
+            return batch
+
+        batch.done_vec = torch.tensor([(1 if ex.get('episode_done') else 0) for ex in batch.observations], dtype=torch.uint8)
+        return batch
+
     def train_step(self, batch):
         """Train model to produce ys given xs.
 
@@ -278,7 +289,7 @@ class ExampleSeq2seqAgent(TorchAgent):
         self.longest_label = max(target_length, self.longest_label)
 
         _encoder_output, encoder_hidden = self.encoder(xs, self.hidden)
-        self.hidden = encoder_hidden.detach()
+        self.hidden = encoder_hidden.detach() * (1 - batch.done_vec).to(encoder_hidden).unsqueeze(-1)
 
         # Teacher forcing: Feed the target as the next input
         y_in = ys.narrow(1, 0, ys.size(1) - 1)
@@ -309,7 +320,8 @@ class ExampleSeq2seqAgent(TorchAgent):
         # just predict
         self.encoder.eval()
         self.decoder.eval()
-        _encoder_output, encoder_hidden = self.encoder(xs)
+        _encoder_output, encoder_hidden = self.encoder(xs, self.hidden)
+        self.hidden = encoder_hidden.detach() * (1 - batch.done_vec).to(encoder_hidden).unsqueeze(-1)
 
         predictions = []
         done = [False for _ in range(bsz)]
