@@ -279,7 +279,7 @@ class ExampleSeq2seqAgent(TorchAgent):
         if xs is None:
             return
         bsz = xs.size(0)
-        if self.hidden.size(1) != bsz:
+        if (not self.hidden is None) and self.hidden.size(1) != bsz:
             self.hidden = None
         starts = self.START.expand(bsz, 1)  # expand to batch size
         loss = 0
@@ -318,7 +318,7 @@ class ExampleSeq2seqAgent(TorchAgent):
         if xs is None:
             return
         bsz = xs.size(0)
-        if self.hidden.size(1) != bsz:
+        if (not self.hidden is None) and self.hidden.size(1) != bsz:
             self.hidden = None
         starts = self.START.expand(bsz, 1)  # expand to batch size
         # just predict
