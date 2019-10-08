@@ -1172,10 +1172,6 @@ class TorchAgent(ABC, Agent):
         :param emb_type:
             pretrained embedding type
         """
-        if not is_primary_worker():
-            # we're in distributed mode, copying embeddings in the workers
-            # slows things down considerably
-            return
         embs, name = self._get_embtype(emb_type)
         cnt = 0
         for w, i in self.dict.tok2ind.items():
@@ -1777,7 +1773,7 @@ class TorchAgent(ABC, Agent):
 
     def set_interactive_mode(self, mode, shared):
         """Set interactive mode on or off."""
-        if shared is None:
+        if shared is None and mode:
             # Only print in the non-shared version.
             print("[" + self.id + ': full interactive mode on.' + ']')
 
