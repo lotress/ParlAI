@@ -10,9 +10,9 @@ from parlai.core.build_data import modelzoo_path
 from parlai.core.dict import find_ngrams
 from parlai.core.params import ParlaiParser
 from parlai.core.dict import DictionaryAgent
-from parlai.core.utils import Opt
+from parlai.utils.misc import Opt
 
-import parlai.core.testing_utils as testing_utils
+import parlai.utils.testing as testing_utils
 import os
 import shutil
 import unittest
@@ -22,8 +22,9 @@ class TestDictionary(unittest.TestCase):
     """Basic tests on the built-in parlai Dictionary."""
 
     def test_gpt2_bpe_tokenize(self):
-        opt = Opt({'dict_tokenizer': 'gpt2', 'datapath': './data'})
-        agent = DictionaryAgent(opt)
+        with testing_utils.capture_output():
+            opt = Opt({'dict_tokenizer': 'gpt2', 'datapath': './data'})
+            agent = DictionaryAgent(opt)
         self.assertEqual(
             agent.gpt2_tokenize(u'Hello, ParlAI! 😀'),
             [
